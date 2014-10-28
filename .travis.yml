@@ -1,0 +1,12 @@
+language: c
+
+compiler:
+  - gcc
+
+script: |
+  ./configure
+  make
+  
+notifications:
+  email:
+    - 123sandyg@gmail.com

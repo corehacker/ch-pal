@@ -55,6 +55,10 @@ static PAL_RET_E pal_get_next_key_stroke (
    uint8_t *puc_byte);
 
 /****************************** LOCAL FUNCTIONS *******************************/
+
+#pragma comment(lib, "Ws2_32.lib")
+#pragma comment(lib, "winmm.lib")
+
 PAL_RET_E pal_env_init()
 {
    PAL_RET_E    e_error     = ePAL_RET_FAILURE;
@@ -194,6 +198,31 @@ void *pal_malloc_impl (
       }
    }
    return p_temp;
+}
+
+void *pal_malloc_impl_v2(
+	uint32_t ui_size,
+	PAL_MALLOC_PARAMS_X  *px_malloc_params,
+	uint8_t *puc_filename,
+	uint8_t *puc_function,
+	uint32_t ui_line_no)
+{
+	void *p_temp = NULL;
+	if (0 != ui_size)
+	{
+		p_temp = malloc(ui_size);
+		if (NULL != p_temp)
+		{
+			PAL_LOG_FULL("malloc success: %d bytes.From %s:%s:%d", ui_size,
+				puc_filename, puc_function, ui_line_no);
+			(void)pal_memset(p_temp, 0x00, ui_size);
+		}
+		else
+		{
+			PAL_LOG_HIGH("malloc failed: %p, Errno: %d", p_temp, errno);
+		}
+	}
+	return p_temp;
 }
 
 void pal_free_impl (

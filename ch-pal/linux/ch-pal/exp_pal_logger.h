@@ -45,6 +45,7 @@ extern  "C"
 
 #define LOGGER_FILENAME_PREFIX_LEN              (256)
 
+#ifndef WIN32
 #define LOG_LOW(modulename,filename,function,line,format,...)                 \
       LOG_LOW_V2(modulename,filename,function,line,format,##__VA_ARGS__)
 
@@ -56,6 +57,19 @@ extern  "C"
 
 #define LOG_FULL(modulename,filename,function,line,format,...)                \
       LOG_FULL_V2(modulename,filename,function,line,format,##__VA_ARGS__)
+#else
+#define LOG_LOW(modulename,filename,function,line,format,...)                 \
+      LOG_LOW_V1(modulename,filename,function,line,format,##__VA_ARGS__)
+
+#define LOG_MED(modulename,filename,function,line,format,...)                 \
+      LOG_MED_V1(modulename,filename,function,line,format,##__VA_ARGS__)
+
+#define LOG_HIGH(modulename,filename,function,line,format,...)                \
+      LOG_HIGH_V1(modulename,filename,function,line,format,##__VA_ARGS__)
+
+#define LOG_FULL(modulename,filename,function,line,format,...)                \
+      LOG_FULL_V1(modulename,filename,function,line,format,##__VA_ARGS__)
+#endif
 
 #define LOG_LOW_V1(modulename,filename,function,line,format,...)              \
 do                                                                            \
@@ -85,6 +99,7 @@ do                                                                            \
       ##__VA_ARGS__);                                                         \
 } while (0)
 
+#ifndef WIN32
 #define LOG_LOW_V2(modulename,filename,function,line,format,...)              \
 do                                                                            \
 {                                                                             \
@@ -112,6 +127,7 @@ do                                                                            \
    logger_v2 (modulename,pthread_self(),filename,function,line,               \
       eLOG_LEVEL_FULL,format, ##__VA_ARGS__);                                 \
 } while (0)
+#endif
 
 /******************************** ENUMERATIONS ********************************/
 typedef enum _LOG_LEVEL_E
@@ -158,6 +174,7 @@ void logger (
    const char *puc_format_str,
    ...);
 
+#ifndef WIN32
 void logger_v2 (
    const char *puc_modulename_str,
    const pthread_t ui_thread_id,
@@ -167,6 +184,7 @@ void logger_v2 (
    const LOG_LEVEL_E e_level,
    const char *puc_format_str,
    ...);
+#endif
 
 #ifdef   __cplusplus
 }

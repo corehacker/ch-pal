@@ -38,7 +38,6 @@
 #endif
 
 #ifndef WIN32
-#include <stdbool.h>
 #include <unistd.h>
 #include <netdb.h>
 #include <sys/socket.h>
@@ -49,14 +48,16 @@
 #include <pthread.h>
 #include <semaphore.h>
 #include <stdlib.h>
+#include <dirent.h>
 #else
-#include <ch-pal/exp_pal_stdbool.h>
 #define _CRT_RAND_S
 #undef WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 #include <mmsystem.h>
 #include <stdlib.h>
+#include "dirent.h"
 #endif
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdint.h>
 #include <stdarg.h>
@@ -68,7 +69,6 @@
 #include <limits.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <dirent.h>
 
 #ifdef  __cplusplus
 extern  "C"
